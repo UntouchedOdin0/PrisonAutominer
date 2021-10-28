@@ -1,0 +1,7 @@
+name: PrisonAutoMiner
+main: me.untouchedodin0.prisonautominer.PrisonAutoMiner
+version: 1.0
+api-version: 1.13
+
+depend:
+  - Citizens

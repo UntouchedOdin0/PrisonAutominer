@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+group 'com.untouchedodin0.autominer'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+        // As of Gradle 5.1, you can limit this to only those
+        // dependencies you expect from it
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+    maven { url = "https://repo.codemc.org/repository/maven-public/" }
+    maven { url = 'https://repo.citizensnpcs.co/' }
+    maven { url = 'https://maven.enginehub.org/repo' }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.5'
+//    compileOnly 'org.codemc.worldguardwrapper:worldguardwrapper:1.2.0-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT' // The Spigot API with no shadowing. Requires the OSS repo.
+    compileOnly 'net.citizensnpcs:citizens:2.0.28-SNAPSHOT'
+    implementation 'com.github.CryptoMorin:XSeries:v8.4.0'
+    implementation 'com.github.Redempt:RedLib:6.0.9.1'
+}
+
+shadowJar {
+    relocate 'org.codemc.worldguardwrapper', 'me.untouchedodin0.prisonautominer.worldguardwrapper'
+}
+
+task updateJars {
+    doLast {
+        copy {
+            from shadowJar
+            into "E:/Coding/Spigot Test Servers/1.8.8/plugins"
+        }
+        copy {
+            from shadowJar
+            into "E:/Coding/Spigot Test Servers/1.12.2 Private Mines/plugins"
+        }
+        copy {
+            from shadowJar
+            into "E:/Coding/Spigot Test Servers/1.17 - Paper (pmines rewrite)/plugins"
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

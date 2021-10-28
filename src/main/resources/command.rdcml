@@ -1,0 +1,12 @@
+autominer,autominers,am {
+    spawn {
+        hook spawn
+        help /autominer spawn
+        permission autominer.spawn
+    }
+    despawn {
+        hook despawn
+        help /autominer despawn
+        permission autominer.despawn
+    }
+}
