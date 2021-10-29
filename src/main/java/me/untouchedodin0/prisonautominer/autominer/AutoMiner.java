@@ -8,6 +8,8 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import me.untouchedodin0.prisonautominer.PrisonAutoMiner;
+import me.untouchedodin0.prisonautominer.autominer.utils.AutoMinerTrait;
 import me.untouchedodin0.prisonautominer.utils.Utils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -24,6 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import redempt.redlib.misc.Task;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AutoMiner {
 
@@ -33,6 +36,8 @@ public class AutoMiner {
     private boolean isSpawned = false;
     private Task task;
     private Utils utils;
+    private PrisonAutoMiner prisonAutoMiner;
+    private UUID owner;
 
     public AutoMinerData getAutoMinerData() {
         return autoMinerData;
@@ -49,11 +54,14 @@ public class AutoMiner {
     public void spawn(Player player, Location npcLocation, int reachDistance) {
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, player.getName());
         npc.data().setPersistent(NPC.ITEM_ID_METADATA, Material.STONE.name());
+        npc.getOrAddTrait(AutoMinerTrait.class);
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery regionQuery = container.createQuery();
         ApplicableRegionSet protectedRegions = regionQuery.getApplicableRegions(BukkitAdapter.adapt(npcLocation));
         LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
         utils = new Utils();
+        prisonAutoMiner = PrisonAutoMiner.getPrisonAutoMiner();
+        owner = player.getUniqueId();
 
         if (!regionQuery.testState(BukkitAdapter.adapt(npcLocation.subtract(0, 1, 0)),
                 localPlayer, Flags.BLOCK_BREAK)) {
@@ -88,14 +96,18 @@ public class AutoMiner {
                     randomLocation.getBlock().setType(Material.EMERALD_BLOCK);
                 }
             }, 0L, 20L);
+            prisonAutoMiner.addNPC(npc.getId());
         }
     }
 
     public void pickup() {
         NPC npc = autoMinerData.getNpc();
-            npc.destroy();
-            this.isSpawned = false;
-            this.task.cancel();
+        AutoMiner autoMiner = prisonAutoMiner.getAutoMiner(owner);
+//        autoMiner.pickup();
+        this.task.cancel();
+        npc.despawn();
+//        this.isSpawned = false;
+//        this.task.cancel();
     }
 }
 
