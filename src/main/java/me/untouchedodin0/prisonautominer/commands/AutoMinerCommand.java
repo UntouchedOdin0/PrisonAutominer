@@ -25,7 +25,7 @@ public class AutoMinerCommand {
             autoMinerData.setOwner(player.getUniqueId());
             autoMinerData.setLocation(player.getLocation());
             autoMiner.setAutoMinerData(autoMinerData);
-            autoMiner.spawn(player, player.getLocation());
+            autoMiner.spawn(player, player.getLocation(), 5);
             player.sendMessage(autoMiner.toString());
         }
         player.sendMessage("isSpawned after: " + isSpawned);
