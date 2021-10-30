@@ -129,19 +129,10 @@ public class AutoMiner {
         }
     }
 
-    public void pickup() {
-        AutoMiner autoMiner = prisonAutoMiner.getAutoMiner(owner);
-        prisonAutoMiner.removeNPC(npc.getId());
-//        autoMiner.pickup();
-        this.task.cancel();
-        npc.despawn();
-//        this.isSpawned = false;
-//        this.task.cancel();
-    }
-
     public void despawn() {
         NPC npc = autoMinerData.getNpc();
         npc.despawn();
+        task.cancel();
     }
 }
 

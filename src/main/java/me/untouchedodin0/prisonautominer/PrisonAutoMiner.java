@@ -40,6 +40,11 @@ public class PrisonAutoMiner extends JavaPlugin {
             npc.despawn();
             CitizensAPI.getNPCRegistry().deregister(npc);
         });
+        autoMinerMap.forEach((uuid, autoMiner) -> {
+            if (autoMiner.isSpawned()) {
+                autoMiner.despawn();
+            }
+        });
 
 //        CitizensAPI.getNPCRegistry().forEach(npc -> {
 //            if (npc.hasTrait(AutoMinerTrait.class)) {
