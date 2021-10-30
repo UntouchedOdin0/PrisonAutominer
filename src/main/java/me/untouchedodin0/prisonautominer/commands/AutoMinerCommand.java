@@ -23,7 +23,7 @@ public class AutoMinerCommand {
 
         player.sendMessage("isSpawned before: " + isSpawned);
         if (isSpawned) {
-            autoMiner.pickup();
+            autoMiner.despawn();
         } else {
             AutoMinerData autoMinerData = new AutoMinerData();
             autoMinerData.setOwner(player.getUniqueId());
@@ -46,7 +46,7 @@ public class AutoMinerCommand {
             player.sendMessage(ChatColor.RED + "Your autominer wasn't even spawned!");
             return;
         } else {
-            autoMiner.pickup();
+            autoMiner.despawn();
             player.sendMessage("Picking up your auto miner");
         }
         player.sendMessage("isSpawned after: " + isSpawned);

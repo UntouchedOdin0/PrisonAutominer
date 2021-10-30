@@ -37,6 +37,8 @@ public class PrisonAutoMiner extends JavaPlugin {
         npcList.forEach(integer -> {
             NPC npc = CitizensAPI.getNPCRegistry().getById(integer);
             getLogger().info("Found npc: " + npc);
+            npc.despawn();
+            CitizensAPI.getNPCRegistry().deregister(npc);
         });
 
 //        CitizensAPI.getNPCRegistry().forEach(npc -> {
@@ -58,14 +60,17 @@ public class PrisonAutoMiner extends JavaPlugin {
         }
     }
 
-    public void removeNPC(NPC npc) {
-        if (!npcList.contains(npc)) {
+    public void removeNPC(int id) {
+        if (!npcList.contains(id)) {
             getLogger().info("NPC didn't exist in the database!");
         } else {
-            npcList.remove(npc);
+            npcList.remove(id);
         }
     }
 
+    public void addAutoMiner(AutoMiner autoMiner) {
+        autoMinerList.add(autoMiner);
+    }
 
     public void addAutoMiner(AutoMiner autoMiner, UUID uuid) {
         autoMinerMap.put(uuid, autoMiner);
