@@ -37,7 +37,7 @@ public class PrisonAutoMiner extends JavaPlugin {
         npcList.forEach(integer -> {
             NPC npc = CitizensAPI.getNPCRegistry().getById(integer);
             getLogger().info("Found npc: " + npc);
-            npc.despawn();
+            npc.destroy();
             CitizensAPI.getNPCRegistry().deregister(npc);
         });
         autoMinerMap.forEach((uuid, autoMiner) -> {

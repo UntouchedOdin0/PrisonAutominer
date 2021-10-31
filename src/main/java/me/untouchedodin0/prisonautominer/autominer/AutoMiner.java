@@ -131,7 +131,7 @@ public class AutoMiner {
 
     public void despawn() {
         NPC npc = autoMinerData.getNpc();
-        npc.despawn();
+        npc.destroy();
         task.cancel();
     }
 }
